@@ -6,8 +6,8 @@ import TripSummary from "./components/TripSummary";
 import RecentSearches from "./components/RecentSearches";
 import TemperatureChart from "./components/TemperatureChart";
 import EventSuggestions from "./components/EventSuggestions";
-import CityHero from "./components/CityHero";
 import LoadingPanel from "./components/LoadingPanel";
+import TripHeader from "./components/TripHeader";
 import "./index.css";
 
 export default function App() {
@@ -63,9 +63,10 @@ export default function App() {
     setTripData(null);
 
     const params = new URLSearchParams(formData).toString();
+    const apiBase = import.meta.env.VITE_API_BASE_URL;
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/trip-weather?${params}`);
+      const response = await fetch(`${apiBase}/api/trip-weather?${params}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -107,13 +108,20 @@ export default function App() {
         {!loading && !tripData && !error && (
           <div className="section empty-state-box">
             <h2>Ready to plan your trip</h2>
-            <p>Search a city and choose your dates to see weather, packing tips, and a few trip ideas.</p>
+            <p>
+              Search a city and choose your dates to see weather, packing tips,
+              and a few trip ideas.
+            </p>
           </div>
         )}
 
         {tripData && (
           <>
-            <CityHero city={tripData.destination} tripLabel={tripData.trip_label} forecast={tripData.forecast} />
+            <TripHeader
+              destination={tripData.destination}
+              tripLabel={tripData.trip_label}
+              days={tripData.forecast.length}
+            />
 
             <div className="top-panels">
               <TripSummary
