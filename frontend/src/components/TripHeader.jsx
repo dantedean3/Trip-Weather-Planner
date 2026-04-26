@@ -22,7 +22,7 @@ export default function TripHeader({ destination, tripLabel, days }) {
 
     if (lower.includes("cool") || lower.includes("cold")) {
       return {
-        background: "linear-gradient(135deg, #a1c4fd, #c2e9fb)",
+        background: "linear-gradient(135deg, #93c5fd, #c2e9fb)",
       };
     }
 
@@ -44,7 +44,7 @@ export default function TripHeader({ destination, tripLabel, days }) {
 
     if (lower.includes("sunny")) return "☀️";
     if (lower.includes("rain")) return "🌧️";
-    if (lower.includes("cool") || lower.includes("cold")) return "❄️";
+    if (lower.includes("cool") || lower.includes("cold")) return "☁️";
     if (lower.includes("mixed")) return "⛅";
 
     return "🌤️";

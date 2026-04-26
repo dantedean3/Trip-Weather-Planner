@@ -664,6 +664,86 @@ h2 {
   margin-bottom: 20px;
 }
 
+/* EVENT CARDS */
+.event-card-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.event-card {
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.event-card h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.event-card p {
+  margin: 6px 0;
+  color: #334155;
+}
+
+.event-address {
+  font-size: 0.9rem;
+  color: #64748b !important;
+}
+
+.top-pick-card {
+  border: 2px solid rgba(245, 158, 11, 0.55);
+  box-shadow: 0 14px 28px rgba(245, 158, 11, 0.12);
+}
+
+.top-pick-text {
+  display: inline-block;
+  margin: 4px 0 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 999px;
+  padding: 5px 10px;
+}
+
+/* AUTOCOMPLETE */
+.autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  margin-top: 6px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.autocomplete-item {
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #0f172a;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.autocomplete-item:hover {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+
+/* MOBILE ONLY */
 @media (max-width: 900px) {
   .top-panels {
     grid-template-columns: 1fr;

@@ -10,6 +10,7 @@ import LoadingPanel from "./components/LoadingPanel";
 import TripHeader from "./components/TripHeader";
 import "./index.css";
 
+
 export default function App() {
   const [tripData, setTripData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -133,6 +134,9 @@ export default function App() {
               />
               <PackingSuggestions suggestions={tripData.packing_suggestions} />
             </div>
+
+            {/* NEW BANNER */}
+          
 
             <EventSuggestions suggestions={tripData.event_suggestions} />
 

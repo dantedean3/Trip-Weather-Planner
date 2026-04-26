@@ -16,6 +16,9 @@ export default function TripForm({ onSubmit }) {
   });
 
   const [formError, setFormError] = useState("");
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
   const { minDate, maxDate } = useMemo(() => {
     const today = new Date();
@@ -63,6 +66,23 @@ export default function TripForm({ onSubmit }) {
     setFormError("");
   }
 
+  async function fetchSuggestions(value) {
+    setQuery(value);
+    setSelectedPlace(null);
+
+    if (value.length < 2) {
+      setResults([]);
+      return;
+    }
+
+    const res = await fetch(
+      `https://api.geoapify.com/v1/geocode/autocomplete?text=${value}&limit=5&apiKey=a7aeceaadf8e4d99af2015713a9f2007`
+    );
+
+    const data = await res.json();
+    setResults(data.features || []);
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -81,21 +101,61 @@ export default function TripForm({ onSubmit }) {
       return;
     }
 
-    onSubmit(formData);
+    onSubmit({
+      ...formData,
+      city: selectedPlace?.name || query,
+      lat: selectedPlace?.lat,
+      lon: selectedPlace?.lon,
+    });
   }
 
   return (
     <>
       <form className="trip-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="city"
-          placeholder="Enter destination city"
-          value={formData.city}
-          onChange={handleChange}
-          required
-        />
+        {/* AUTOCOMPLETE INPUT */}
+        <div className="autocomplete-wrapper">
+          <input
+            type="text"
+            placeholder="Enter destination city"
+            value={query}
+            onChange={(e) => fetchSuggestions(e.target.value)}
+            required
+          />
 
+          {results.length > 0 && (
+            <div className="autocomplete-dropdown">
+              {results.map((item, i) => {
+                const props = item.properties;
+
+                return (
+                  <div
+                    key={i}
+                    className="autocomplete-item"
+                    onClick={() => {
+                      setSelectedPlace({
+                        name: props.formatted,
+                        lat: props.lat,
+                        lon: props.lon,
+                      });
+
+                      setQuery(props.formatted);
+                      setResults([]);
+
+                      setFormData((prev) => ({
+                        ...prev,
+                        city: props.formatted,
+                      }));
+                    }}
+                  >
+                    {props.formatted}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* DATES */}
         <input
           type="date"
           name="start"
@@ -116,6 +176,7 @@ export default function TripForm({ onSubmit }) {
           required
         />
 
+        {/* UNITS */}
         <select name="units" value={formData.units} onChange={handleChange}>
           <option value="imperial">Imperial (°F)</option>
           <option value="metric">Metric (°C)</option>
